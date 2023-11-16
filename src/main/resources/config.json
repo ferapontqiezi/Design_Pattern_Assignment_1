@@ -3,8 +3,8 @@
     "colour": "green",
     "friction": 1.0,
     "size": {
-      "x": 600,
-      "y": 300
+      "x": 800,
+      "y": 600
     }
   },
   "Balls": {
@@ -34,7 +34,7 @@
         "mass": 1.0
       },
       {
-        "colour": "purple",
+        "colour": "red",
         "position": {
           "x": 450.0,
           "y": 150.0
@@ -58,7 +58,7 @@
         "mass": 1.0
       },
       {
-        "colour": "black",
+        "colour": "blue",
         "position": {
           "x": 380.0,
           "y": 220.0
@@ -68,6 +68,46 @@
           "y": 0.0
         },
         "mass": 1.0
+      }
+    ]
+  },
+  "Holes": {
+    "hole": [
+      {
+        "position": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      },
+      {
+        "position": {
+          "x": 800.0,
+          "y": 600.0
+        }
+      },
+      {
+        "position": {
+          "x": 0.0,
+          "y": 600.0
+        }
+      },
+      {
+        "position": {
+          "x": 400.0,
+          "y": 0.0
+        }
+      },
+      {
+        "position": {
+          "x": 400.0,
+          "y": 600.0
+        }
+      },
+      {
+        "position": {
+          "x": 800.0,
+          "y": 0.0
+        }
       }
     ]
   }

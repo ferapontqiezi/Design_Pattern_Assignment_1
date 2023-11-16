@@ -1,6 +1,12 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import BouncyBall.Items.Ball;
+import BouncyBall.Items.Table;
+import BouncyBall.Items.Hole;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,7 +22,9 @@ public class ConfigReader {
 	 * 
 	 * @param path The path of the json file to read
 	 */
-	public static void parse(String path) {
+	// parse()改写为三种方法，分别创建桌子、桌球和洞
+
+	public static Table createTable(String path) {
 
 		JSONParser parser = new JSONParser();
 		try {
@@ -42,7 +50,33 @@ public class ConfigReader {
 			Double tableFriction = (Double) jsonTable.get("friction");
 
 			// TODO: delete me, this is just a demonstration:
-			System.out.println("Table colour: " + tableColour + ", x: " + tableX + ", y: " + tableY + ", friction: " + tableFriction);
+			// System.out.println("Table colour: " + tableColour + ", x: " + tableX + ", y: " + tableY + ", friction: " + tableFriction);
+
+			// 使用 Table.Constructor 创建 Table 实例
+			Table table = new Table.Constructor(tableColour, tableX, tableY, tableFriction).build();
+
+			return table;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// 如果抛出异常返回null
+		return null;
+	}
+
+	public static List<Ball> createBalls(String path) {
+		List<Ball> balls = new ArrayList<>();
+
+		JSONParser parser = new JSONParser();
+		try {
+			Object object = parser.parse(new FileReader(path));
+
+			// convert Object to JSONObject
+			JSONObject jsonObject = (JSONObject) object;
 
 			// reading the "Balls" section:
 			JSONObject jsonBalls = (JSONObject) jsonObject.get("Balls");
@@ -69,7 +103,12 @@ public class ConfigReader {
 				Double mass = (Double) jsonBall.get("mass");
 
 				// TODO: delete me, this is just a demonstration:
-				System.out.println("Ball x: " + positionX + ",Ball y: " + positionY + "V x: " + velocityX + "V y: " + velocityY + "Colour: " + colour + ", mass: " + mass);
+				// System.out.println("Ball x: " + positionX + ",Ball y: " + positionY + "V x: " + velocityX + "V y: " + velocityY + "Colour: " + colour + ", mass: " + mass);
+
+				// 使用 Ball.Constructor 创建 Ball 实例
+				Ball ball = new Ball.Constructor(colour, positionX, positionY, velocityX, velocityY, mass).build();
+
+				balls.add(ball);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -78,13 +117,57 @@ public class ConfigReader {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
+		return balls;
 	}
+
+	public static List<Hole> createHoles(String path) {
+		List<Hole> holes = new ArrayList<>();
+
+		JSONParser parser = new JSONParser();
+		try {
+			Object object = parser.parse(new FileReader(path));
+
+			// 将 Object 转换为 JSONObject
+			JSONObject jsonObject = (JSONObject) object;
+
+			// 读取 "Holes" 部分：
+			JSONObject jsonHoles = (JSONObject) jsonObject.get("Holes");
+
+			// 读取 "Holes: hole" 数组：
+			JSONArray jsonHoleshole = (JSONArray) jsonHoles.get("hole");
+
+			// 从数组中读取：
+			for (Object obj : jsonHoleshole) {
+				JSONObject jsonHole = (JSONObject) obj;
+
+				double positionX = (Double) ((JSONObject) jsonHole.get("position")).get("x");
+				double positionY = (Double) ((JSONObject) jsonHole.get("position")).get("y");
+
+				// 使用 Hole.Constructor 创建 Hole 实例
+				Hole hole = new Hole.Constructor(positionX, positionY).build();
+
+				holes.add(hole);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return holes;
+	}
+
+	// ConfigReader的main()方法放入Main类中
 
 	/**
 	 * Your main method will probably be in another file!
-	 * 
+	 *
 	 * @param args First argument is the path to the config file
 	 */
+	/*
 	public static void main(String[] args) {
 		// if a command line argument is provided, that should be used as the path
 		// if not, you can hard-code a default. e.g. "src/main/resources/config.json"
@@ -98,5 +181,5 @@ public class ConfigReader {
 		// parse the file:
 		ConfigReader.parse(configPath);
 	}
-
+	*/
 }
