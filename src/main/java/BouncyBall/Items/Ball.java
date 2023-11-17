@@ -20,17 +20,15 @@ public class Ball implements Movable, Drawable {
     private final Circle shape;
     // 击打白球的拖拽线
     private final Line dragLine;
-    // 是否在拖拽
+    // 是否能够拖拽，只有白球静止时可以
     private boolean dragging = false;
     // 球的存活命数，0表示进洞死亡，1表示红球或者死过一次的蓝球，2表示一次没死的蓝球
     private int alive;
-    // 初始位置坐标(X,Y)
+    // 球的半径
+    private double radius;
+    // 蓝球复活初始位置坐标(X,Y)
     private double initialPostionX;
     private double initialPostionY;
-    // 球的半径
-    private static final double RADIUS = 15.0;
-    // 球的速度(Vx,Vy)
-    private final double[] velocity = {0.0, 0.0};
 
     public Ball(Constructor cons) {
         this.velocityX = velocityX;
@@ -39,6 +37,7 @@ public class Ball implements Movable, Drawable {
         this.shape = cons.shape;
         this.dragLine = cons.dragLine;
         this.alive = cons.alive;
+        this.radius = cons.radius;
         this.initialPostionX = cons.initialPositionX;
         this.initialPostionY = cons.initialPositionY;
     }
@@ -54,7 +53,7 @@ public class Ball implements Movable, Drawable {
         group.add(this.shape);
     }
 
-    // 击打白球的拖拽线
+    // 击打白球的鼠标event()
     public void registerMouseAction(Group root) {
         root.getChildren().add(dragLine);
 
@@ -113,12 +112,12 @@ public class Ball implements Movable, Drawable {
 
     @Override
     public double getXVel() {
-        return this.velocity[0];
+        return this.velocityX;
     }
 
     @Override
     public double getYVel() {
-        return this.velocity[1];
+        return this.velocityY;
     }
 
     public double getMass() {
@@ -144,16 +143,17 @@ public class Ball implements Movable, Drawable {
 
     @Override
     public void setXVel(double xVel) {
-        velocityX = xVel;
+        this.velocityX = xVel;
     }
 
     @Override
     public void setYVel(double yVel) {
-        velocityY = yVel;
+        this.velocityY = yVel;
     }
 
     public void setCircleRadius(double radius) {
         shape.setRadius(radius);
+        this.radius = radius;
     }
 
     public void setAlive(int alive) {
@@ -177,6 +177,7 @@ public class Ball implements Movable, Drawable {
         private double velocityY;
         private double mass;
         private int alive;
+        private double radius;
         private double initialPositionX;
         private double initialPositionY;
 

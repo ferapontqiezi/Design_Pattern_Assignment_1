@@ -42,6 +42,7 @@ public class Main extends Application {
         Canvas canvas = new Canvas(DIM_X, DIM_Y);
         root.getChildren().add(canvas);
 
+        // set games
         Game game = new Game(canvas);
         game.setTable(table);
         game.setBalls(balls);

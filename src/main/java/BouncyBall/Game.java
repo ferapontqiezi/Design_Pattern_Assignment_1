@@ -17,7 +17,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class Game {
             handleTableCollision();
             handleBallsCollision();
             handleHolesCollision();
-            winDetecion();
+            winDetection();
         }
     }
 
@@ -155,7 +154,7 @@ public class Game {
                         } else if (ball.getColour().matches("0x0000ffff")) {
                             Context context3 = new Context(new ConcreteStrategyC(), ball);
                             context3.ContextInterface();
-                            intersectDetecion(i);
+                            intersectDetection(i);
                         }
                     }
                 }
@@ -171,7 +170,7 @@ public class Game {
                     Ball ballB = balls.get(j);
                     if (ballB.getAlive() != 0){
                         double distance = calculateDistance(ballA.getXPos(), ballA.getYPos(), ballB.getXPos(), ballB.getYPos());
-                        double radiusSum = 20;
+                        double radiusSum = 30;
 
                         if (distance < radiusSum) {
                             Point2D positionA = new Point2D(ballA.getXPos(), ballA.getYPos());
@@ -216,7 +215,7 @@ public class Game {
         }
     }
 
-    private void winDetecion() {
+    private void winDetection() {
         for (int i = 0; i < 5; i++) {
             if (balls.get(i).getAlive() != 0 && !balls.get(i).getColour().matches("0xffffffff")) {
                 return;
@@ -230,13 +229,13 @@ public class Game {
         }
     }
 
-    private void intersectDetecion(int i) {
+    private void intersectDetection(int i) {
         for (int j = 0; j < 5; j++) {
             if (j != i && balls.get(j).getAlive() != 0 && calculateDistance(balls.get(i).getXPos(),
                     balls.get(i).getYPos(), balls.get(j).getXPos(), balls.get(j).getYPos()) < 20) {
                 balls.get(i).setXPos(balls.get(i).getXPos() + 40);
                 balls.get(i).setYPos(balls.get(i).getYPos() + 40);
-                intersectDetecion(i);
+                intersectDetection(i);
             }
         }
     }

@@ -35,7 +35,7 @@ public class Hole implements Drawable{
         private final Circle shape;
 
         public Constructor(double positionX, double positionY) {
-            this.shape = new Circle(positionX+100, positionY+50, 25, Color.BLACK);
+            this.shape = new Circle(positionX + 100, positionY + 50, 30, Color.BLACK);
         }
 
         public Hole build() {
